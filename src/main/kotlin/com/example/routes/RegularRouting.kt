@@ -40,8 +40,8 @@ fun Route.customerRoutes() {
         ]
     )
     @KtorDescription(
-        summary = "",
-        description = ""
+        summary = "Get customer by id",
+        description = "Returns customer by id"
     )
     get("/customer/{id}") {
         val idParam = call.parameters["id"]
