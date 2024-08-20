@@ -1,0 +1,15 @@
+[versions]
+kotlinVersion = "2.0.0"
+ktorVersion = "2.3.12"
+
+[bundles]
+ktor = ["ktor", "ktorNetty", "ktorOpenApi", "ktorSwagger", "ktorResources"]
+
+[libraries]
+ktor = { module = "io.ktor:ktor", version.ref = "ktorVersion" }
+ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktorVersion" }
+ktorOpenApi = { module = "io.ktor:ktor-server-openapi", version.ref = "ktorVersion" }
+ktorSwagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktorVersion" }
+ktorResources = { module = "io.ktor:ktor-server-resources", version.ref = "ktorVersion" }
+
+
