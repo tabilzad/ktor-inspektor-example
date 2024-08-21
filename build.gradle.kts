@@ -35,5 +35,6 @@ repositories {
 
 dependencies {
     implementation(libs.bundles.ktor)
+    implementation(libs.logging)
     implementation("io.swagger.codegen.v3:swagger-codegen-generators:1.0.36")
 }

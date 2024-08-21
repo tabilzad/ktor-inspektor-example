@@ -1,7 +1,9 @@
 package com.example.model
 
 import io.github.tabilzad.ktor.annotations.KtorFieldDescription
+import kotlinx.serialization.Serializable
 
+@Serializable
 @KtorFieldDescription("This is a request sample")
 data class SampleRequest(
     @KtorFieldDescription("Integer")
@@ -16,6 +18,7 @@ data class SampleRequest(
     val map: Map<String, ObjectRef>
 )
 
+@Serializable
 data class ObjectRef(
     @KtorFieldDescription("Integer")
     val int: Int = 0,

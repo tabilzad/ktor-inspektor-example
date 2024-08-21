@@ -1,11 +1,16 @@
 package com.example.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SampleResponse(
     val int: Int = 0,
     val string: String = "",
     val double: Double = 0.0,
     val objectRef: ObjectRef = ObjectRef(),
     val list: List<String> = emptyList(),
+    @SerialName("objects")
     val setObjectRefs: Set<ObjectRef> = emptySet(),
     val map: Map<String, ObjectRef> = mapOf()
 ) {
