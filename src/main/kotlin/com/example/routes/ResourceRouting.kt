@@ -1,6 +1,9 @@
 package com.example.routes
 
+import com.example.model.SampleResponse
 import com.example.resources.Articles
+import io.github.tabilzad.ktor.annotations.KtorResponds
+import io.github.tabilzad.ktor.annotations.ResponseEntry
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.get
@@ -14,10 +17,12 @@ import io.ktor.server.resources.Resources
 fun Application.configureTypeSafeRoutes() {
     install(Resources)
     routing {
+        @KtorResponds(mapping = [ResponseEntry("200", SampleResponse::class)])
         get<Articles> { article ->
             // Get all articles ...
             call.respondText("List of articles sorted starting from ${article.sort}")
         }
+        @KtorResponds(mapping = [ResponseEntry("200", SampleResponse::class)])
         get<Articles.New> {
             // Show a page with fields for creating a new article ...
             call.respondText("Create a new article")
