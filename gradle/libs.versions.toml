@@ -1,6 +1,6 @@
 [versions]
-kotlinVersion = "2.0.0"
-ktorVersion = "2.3.12"
+kotlinVersion = "2.1.10"
+ktorVersion = "3.1.1"
 
 [bundles]
 ktor = ["ktor",
@@ -12,7 +12,7 @@ ktor = ["ktor",
     "ktorSerialization"]
 
 [libraries]
-ktor = { module = "io.ktor:ktor", version.ref = "ktorVersion" }
+ktor = { module = "io.ktor:ktor-server-core", version.ref = "ktorVersion" }
 ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktorVersion" }
 ktorOpenApi = { module = "io.ktor:ktor-server-openapi", version.ref = "ktorVersion" }
 ktorSwagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktorVersion" }
