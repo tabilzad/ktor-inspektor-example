@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
     id("io.ktor.plugin") version "3.1.1"
-    id("io.github.tabilzad.inspektor") version "0.7.2-alpha"
+    id("io.github.tabilzad.inspektor") version "0.7.3-alpha"
 }
 
 group = "com.example"
@@ -20,7 +20,7 @@ swagger {
 
             contact {
                 name = "Inspektor"
-                url = "https://github.com/tabilzad/ktor-docs-plugin"
+                url = "https://github.com/tabilzad/inspektor"
             }
         }
         security {
