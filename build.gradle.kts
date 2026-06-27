@@ -1,9 +1,9 @@
 import io.github.tabilzad.ktor.model.SecurityScheme
 
 plugins {
+    application
     kotlin("jvm") version "2.4.0"
     kotlin("plugin.serialization") version "2.4.0"
-    id("io.ktor.plugin") version "3.5.0"
     id("io.github.tabilzad.inspektor") version "0.11.2-alpha"
 }
 

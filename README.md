@@ -21,6 +21,7 @@ The spec itself is generated during compilation to `build/openapi/openapi.yaml` 
 
 | Tool      | Version       |
 |-----------|---------------|
+| JDK       | 11+           |
 | Kotlin    | 2.4.0         |
 | Ktor      | 3.5.0         |
 | InspeKtor | 0.11.2-alpha  |
