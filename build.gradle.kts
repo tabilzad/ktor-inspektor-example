@@ -1,10 +1,10 @@
 import io.github.tabilzad.ktor.model.SecurityScheme
 
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
-    id("io.ktor.plugin") version "3.1.1"
-    id("io.github.tabilzad.inspektor") version "0.7.3-alpha"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.serialization") version "2.4.0"
+    id("io.ktor.plugin") version "3.5.0"
+    id("io.github.tabilzad.inspektor") version "0.11.2-alpha"
 }
 
 group = "com.example"
@@ -12,17 +12,43 @@ version = "0.0.1"
 
 swagger {
     documentation {
+        // Document the servers the API is reachable on.
         servers = listOf("http://localhost:8080", "http://127.0.0.1:8080")
+
         info {
             title = "Example Ktor Server"
-            description = "Example Server Description"
-            version = "10"
+            description = "A showcase of every InspeKtor feature"
+            version = "1.0.0"
 
             contact {
-                name = "Inspektor"
+                name = "InspeKtor"
                 url = "https://github.com/tabilzad/inspektor"
             }
+            license {
+                name = "Apache 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0"
+            }
         }
+
+        // Infer response schemas directly from `call.respond(...)` — no annotations required.
+        inferResponseSchemas = true
+
+        // Resolve schema/field descriptions from KDoc comments.
+        useKDocsForDescriptions = true
+
+        // Discriminator property name used for sealed-class `oneOf` schemas.
+        polymorphicDiscriminator = "type"
+
+        // Map an opaque/third-party type to a primitive OpenAPI type.
+        serialOverrides {
+            typeOverride("java.time.Instant") {
+                serializedAs = "string"
+                format = "date-time"
+                description = "ISO-8601 timestamp"
+            }
+        }
+
+        // Global security requirements + reusable security schemes.
         security {
             scopes {
                 or {
@@ -48,7 +74,6 @@ swagger {
                     name = "X-API-Key"
                 )
             }
-
         }
     }
 
@@ -64,14 +89,18 @@ application {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    // this is only to pull staged inspektor releases
-    maven("https://s01.oss.sonatype.org/content/repositories/staging")
 }
 
 dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.logging)
-    implementation("io.swagger.codegen.v3:swagger-codegen-generators:1.0.36")
+}
+
+// InspeKtor copies the generated spec into build/resources/main so it ships on the runtime classpath
+// (Swagger UI serves it from there). That copy task writes into the jar tasks' input dir, so declare
+// the dependency to satisfy Gradle's task-validation. (Tracked upstream — ideally the plugin wires
+// this so consumers don't have to.)
+tasks.withType<Jar>().configureEach {
+    dependsOn(tasks.withType<Copy>().matching { it.name.startsWith("copyOpenApiSpec") })
 }

@@ -1,11 +1,8 @@
 package com.example.routes
 
-import com.example.model.SampleErrorResponse
 import com.example.model.SampleRequest
 import com.example.model.SampleResponse
 import io.github.tabilzad.ktor.annotations.KtorDescription
-import io.github.tabilzad.ktor.annotations.KtorResponds
-import io.github.tabilzad.ktor.annotations.ResponseEntry
 import io.github.tabilzad.ktor.annotations.Tag
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -13,67 +10,28 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-@Tag(["All Endpoints"])
-fun Application.configureRegularRoutes() {
-    routing {
-        customerRoutes()
-        orderRoutes()
+/**
+ * The basics: path / query / header parameters, request bodies, endpoint descriptions, tags, and
+ * hiding an endpoint. Tags (declared with [Tag]) group endpoints in the generated spec / Swagger UI.
+ */
+@Tag(["Basics"])
+fun Route.regularRoutes() {
 
-        @Tag(["Shipments"])
-        route("/shipments") {
-            get {
-                call.respond(SampleResponse())
-            }
-            post<SampleRequest> { request ->
-                call.respond(SampleResponse.fromRequest(request))
-            }
-        }
-    }
-}
-
-@Tag(["Customer"])
-fun Route.customerRoutes() {
-    @KtorResponds(
-        mapping = [
-            ResponseEntry("200", SampleResponse::class),
-            ResponseEntry("400", SampleErrorResponse::class)
-        ]
-    )
     @KtorDescription(
-        summary = "Get customer by id",
-        description = "Returns customer by id"
+        summary = "Get an item",
+        description = "Path, query and header parameters are detected automatically from the handler.",
     )
-    get("/customer/{id}") {
-        val idParam = call.parameters["id"]
-        call.respond(HttpStatusCode.OK, SampleResponse()).also {
-            println(idParam)
-        }
+    get("/items/{id}") {
+        val id = call.parameters["id"]                  // path parameter `{id}`
+        val sort = call.request.queryParameters["sort"] // query parameter `?sort=`
+        val apiKey = call.request.headers["X-API-Key"]  // header parameter
+        call.respond(SampleResponse(string = "item $id sorted by $sort for $apiKey"))
     }
 
-    @KtorResponds(mapping = [ResponseEntry("200", SampleResponse::class)])
-    post("/customer") {
-        val body = call.receive<SampleRequest>()
-        call.respond(HttpStatusCode.OK, SampleResponse.fromRequest(body))
-    }
-}
-
-@Tag(["Order"])
-fun Route.orderRoutes() {
-    route("/orders") {
-        @KtorResponds(mapping = [ResponseEntry("200", SampleResponse::class, isCollection = true)])
-        get("/all") {
-            val query = call.request.queryParameters["sort"]
-            call.respond(HttpStatusCode.OK, SampleResponse()).also {
-                println(query)
-            }
-        }
-
-        @KtorResponds(mapping = [ResponseEntry("200", SampleResponse::class)])
-        get("/{id}") {
-            val idParam = call.parameters["id"]
-            call.respond(HttpStatusCode.OK, SampleResponse()).also {
-                println(idParam)
-            }
-        }
+    @KtorDescription(summary = "Create an item")
+    post("/items") {
+        // The request body schema is inferred from `call.receive<T>()`.
+        val request = call.receive<SampleRequest>()
+        call.respond(HttpStatusCode.Created, SampleResponse.fromRequest(request))
     }
 }
