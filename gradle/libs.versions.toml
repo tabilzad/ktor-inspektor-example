@@ -1,15 +1,17 @@
 [versions]
-kotlinVersion = "2.1.10"
-ktorVersion = "3.1.1"
+ktorVersion = "3.5.0"
+logback = "1.5.18"
 
 [bundles]
-ktor = ["ktor",
+ktor = [
+    "ktor",
     "ktorNetty",
     "ktorOpenApi",
     "ktorSwagger",
     "ktorResources",
     "ktorContentNegotiation",
-    "ktorSerialization"]
+    "ktorSerialization",
+]
 
 [libraries]
 ktor = { module = "io.ktor:ktor-server-core", version.ref = "ktorVersion" }
@@ -19,6 +21,4 @@ ktorSwagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktorVersi
 ktorResources = { module = "io.ktor:ktor-server-resources", version.ref = "ktorVersion" }
 ktorContentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktorVersion" }
 ktorSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-logging = { module = "ch.qos.logback:logback-classic", version = "1.5.7" }
-
-
+logging = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
